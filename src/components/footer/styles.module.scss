@@ -1,0 +1,236 @@
+@use "sass:color";
+
+$footerBg: color.adjust(#000, $lightness: 8%);
+
+.footer {
+  @include flexColumnCenter;
+  padding: 25px 50px;
+  background-color: $footerBg;
+  color: #fff;
+
+  .newsLetterSection {
+    margin-bottom: 25px;
+
+    .newsLetterContainer {
+      font-family: "Poppins", sans-serif;
+      @include flexColumnCenter;
+
+      h1 {
+        font-size: 28px;
+        text-transform: uppercase;
+        text-align: center;
+        margin: 25px 0;
+      }
+
+      .newsLetterInput {
+        border-radius: 0;
+        background-color: $footerBg;
+        outline-color: color.adjust(#fff, $lightness: -50%);
+        min-width: 320px;
+        width: 75%;
+        max-width: 100%;
+
+        &:focus-within,
+        &:hover {
+          outline-color: color.adjust(#fff, $lightness: -25%);
+        }
+
+        [class*="label"] {
+          background-color: $footerBg;
+          color: white;
+        }
+
+        [class*="textbox"] {
+          color: color.adjust(#fff, $lightness: 0%);
+
+          &:focus,
+          &:not([value=""]) {
+            outline: none;
+
+            &~[class="label"] {
+              color: white;
+            }
+          }
+        }
+
+        [class*="inputButton"] {
+          color: white;
+        }
+
+      }
+    }
+  }
+
+  .FooterArticles {
+    width: 100%;
+    margin: 50px 0;
+    @include flexRowCenter;
+    justify-content: start;
+    gap: 50px;
+    flex-wrap: wrap;
+    position: relative;
+
+    .otherArticles {
+      @include flexRowEvenly;
+      flex-wrap: wrap;
+      max-width: 50%;
+      width: 100%;
+      gap: 50px
+    }
+
+    .article {
+      @include flexColumnBetween;
+      height: 250px;
+      justify-content: start;
+      align-items: start;
+      font-family: "Poppins", sans-serif;
+
+      h3 {
+        font-size: 20px;
+        margin-bottom: 25px
+      }
+
+      .articleItemsContainer {
+        @include flexColumnBetween;
+        justify-content: start;
+        align-items: flex-start;
+        height: 100%;
+        gap: 15px;
+
+        .articleItem {
+          color: #fff;
+          font-size: 14px;
+        }
+      }
+
+      &.websiteLogo {
+        min-width: 40%;
+        justify-content: center;
+        align-items: center;
+
+        img {
+          width: 320px;
+        }
+      }
+
+      &.quickLinks {
+
+        .linkContainer {
+
+          .link {
+            text-transform: lowercase;
+
+            &:first-letter {
+              text-transform: uppercase;
+            }
+          }
+        }
+      }
+    }
+
+    &::after,
+    &::before {
+      content: " ";
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background-color: color.adjust($dividerColor, $lightness: -60%);
+
+      // background-color: $dividerColor;
+    }
+
+    &::after {
+      bottom: -25px;
+    }
+
+    &::before {
+      top: -25px;
+    }
+  }
+
+  .othersSection {
+    @include flexRowCenter;
+    justify-content: space-between;
+    width: 100%;
+
+    .copyright {
+      font-family: "Poppins", sans-serif;
+      // white-space: nowrap;
+      font-size: 14px;
+      // width: clamp(50%, 50%, 50%);
+    }
+
+    .socials {
+      @include flexRowCenter;
+      justify-content: end;
+      // width: clamp(50%, 50%, 50%);
+
+      .link {
+        margin-right: 15px;
+
+        &:last-child {
+          margin-right: 0;
+        }
+
+        a {
+          font-size: 24px;
+          color: #fff;
+
+          i {
+            @include flexRowCenter;
+          }
+        }
+      }
+    }
+  }
+}
+
+@mixin mobileView {
+  .footer {
+    padding: 25px;
+
+    .FooterArticles {
+      .otherArticles {
+        max-width: 100%;
+        width: 100%;
+      }
+
+      .article {
+
+        &.websiteLogo {
+          align-items: center;
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+
+@include media-breakpoint-only(xs) {
+  @include mobileView;
+}
+
+@include media-breakpoint-only(sm) {
+  @include mobileView;
+}
+
+@include media-breakpoint-only(md) {
+  .footer {
+    .FooterArticles {
+      justify-content: center;
+    }
+  }
+}
+
+@include media-breakpoint-only(lg) {}
+
+@include media-breakpoint-only(xl) {}
+
+@include media-breakpoint-only(xxl) {}
+
+@include media-breakpoint-only(xxxl) {
+  .footer {
+    padding: 0 calc((100% - #{$maxContentWidth}) / 2);
+  }
+}

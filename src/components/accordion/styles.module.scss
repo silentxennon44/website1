@@ -1,0 +1,78 @@
+.accordion {
+  width: 300px;
+  margin: 0 auto;
+
+  [class~="section"] {
+    margin-bottom: 10px;
+    margin-left: 0;
+
+    &[class*="marginLeft"] {
+      margin-left: 20px;
+    }
+
+    [class*="sectionItem"] {
+      width: 100%;
+      padding: 10px;
+      background-color: #f9f9f9;
+      border: none;
+      text-align: left;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      font-family: "Poppins", sans-serif;
+      transition: all 0.3s ease-in-out;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      i {
+        display: flex;
+        align-items: center;
+        margin-left: 5px;
+        transition: 0.3s ease-in-out;
+        width: 16px;
+      }
+
+      &[class*="open"] {
+        i {
+          transform: rotate(180deg);
+        }
+      }
+    }
+
+    [class*="wrapper"] {
+      display: flex;
+      width: 100%;
+
+      &>div {
+        width: 100%;
+      }
+
+      &[class*="open"] {
+        &>div>[class*="sectionContainer"] {
+          max-height: 100%;
+          padding: 10px;
+          border-top: 1px solid #ccc;
+          transition: max-height 0.5s ease-out, padding 0.1s ease-out, border-top 0.1s ease-out;
+        }
+      }
+    }
+
+    [class*="sectionContainer"] {
+      background-color: #fff;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease-out, padding 0.01s ease-out .5s,
+        border-top 0.01s ease-out .5s;
+    }
+
+    [class*="sectionLink"] {
+      display: block;
+      margin-bottom: 5px;
+      padding: 10px;
+      background-color: #f9f9f9;
+      border: 1px solid #ccc;
+      font-weight: bold;
+    }
+  }
+}

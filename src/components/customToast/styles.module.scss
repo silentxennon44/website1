@@ -1,0 +1,113 @@
+// src/CustomToast.scss
+
+.customToast {
+
+  &[class*="information-toast"] {
+    display: flex;
+    align-items: center;
+    background: rgb(254, 246, 213);
+    color: #363636;
+    line-height: 1.3;
+    will-change: transform;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1), 0 3px 3px rgba(0, 0, 0, 0.05);
+    max-width: 350px;
+    pointer-events: auto;
+    padding: 8px 10px;
+    border-radius: 8px;
+    animation: 0.35s cubic-bezier(0.21, 1.02, 0.73, 1) 0s 1 normal forwards running intro;
+
+    &[class*="closing-toast"] {
+      animation: 0.35s cubic-bezier(0.21, 1.02, 0.73, 1) 0s 1 normal forwards running outro;
+    }
+
+    [class*="defaultIcon"] {
+      // .defaultIcon {
+      position: relative;
+      transform: scale(0.6);
+      opacity: 0.4;
+      min-width: 20px;
+      animation: iconAnimation 0.3s 0.12s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      font-size: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    [class*="toastMessage"] {
+      // .toastMessage {
+      flex: 1;
+      font-size: 16px;
+      margin-left: 10px;
+      margin-top: 4px;
+      margin-bottom: 4px;
+      margin-right: 20px;
+    }
+
+    [class*="closeButton"] {
+      // .closeButton {
+      color: black;
+      top: 10px;
+      right: 10px;
+    }
+  }
+
+  &[class*="success-toast"] {
+    [class*="closeButton"] {
+      color: #000;
+    }
+  }
+
+  [class*="toastMessage"] {
+    // .toastMessage {
+    margin-right: 10px;
+    font-family: "Poppins", sans-serif;
+  }
+
+  [class*="closeButton"] {
+    // .closeButton {
+    position: absolute;
+    top: -1px;
+    right: -8px;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+  }
+}
+
+@keyframes intro {
+  0% {
+    transform: translate3d(0, -200%, 0) scale(.6);
+    opacity: .5;
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes outro {
+  0% {
+    transform: translate3d(0, 0, -1px) scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate3d(0, -150%, -1px) scale(0.6);
+    opacity: 0;
+  }
+}
+
+@keyframes iconAnimation {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.4;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

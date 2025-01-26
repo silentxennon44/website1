@@ -1,0 +1,38 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: all 0.25s ease-in-out;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+  }
+
+  [class="thumbnail"] {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    /* Ensures consistent aspect ratio */
+    object-fit: cover;
+  }
+
+  [class="body"] {
+    padding: 16px;
+
+    [class="title"] {
+      font-size: 1.25rem;
+      font-weight: bold;
+      margin: 0 0 8px;
+      text-decoration: underline;
+    }
+
+    [class="description"] {
+      font-size: 0.9rem;
+      line-height: 1.5;
+      color: #555;
+    }
+  }
+}

@@ -1,0 +1,92 @@
+.drawer {
+  // z-index: 100;
+  position: fixed;
+  height: 0;
+  width: 0;
+  top: 0;
+  left: 0;
+
+  &[class*="open"] {
+    height: 100vh;
+    width: 100%;
+  }
+
+  [class*="content"] {
+    position: fixed;
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    transition: left 0.3s ease, right 0.3s ease, top 0.3s ease, bottom 0.3s ease;
+    z-index: 11;
+    overflow-y: auto;
+
+    &[data-anchor="left"] {
+      top: 0;
+      left: -100%;
+      width: auto;
+      height: 100%;
+    }
+
+    &[data-anchor="right"] {
+      top: 0;
+      right: -100%;
+      width: auto;
+      height: 100%;
+    }
+
+    &[data-anchor="top"] {
+      left: 0;
+      top: -100%;
+      height: auto;
+      width: 100%;
+    }
+
+    &[data-anchor="bottom"] {
+      left: 0;
+      bottom: -100%;
+      height: auto;
+      width: 100%;
+    }
+
+    &[class*="left"] {
+      left: 0
+    }
+
+    &[class*="right"] {
+      right: 0
+    }
+
+    &[class*="top"] {
+      top: 0
+    }
+
+    &[class*="bottom"] {
+      bottom: 0
+    }
+
+    &[class*="shadow"] {
+      -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+      -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+      box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+    }
+  }
+
+  [class*='overlay'] {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: unset;
+    width: 0;
+    height: 0;
+    z-index: 10;
+    transition: background-color .25s ease-in-out;
+
+    &[class*='bg'] {
+      background-color: rgba(0, 0, 0, 0.5);
+      width: 100%;
+      height: 100%;
+    }
+  }
+}

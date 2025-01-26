@@ -1,0 +1,199 @@
+.home {
+  .videoBanner {
+    @include flexRowCenter;
+    overflow: hidden;
+    max-height: 720px;
+
+    video {
+      width: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .news {
+    padding: 50px;
+
+    .header {
+      font-family: "Poppins", sans-serif;
+      font-size: 24px;
+      margin-bottom: 25px;
+    }
+
+    .swiper {
+      z-index: 0;
+      overflow: visible;
+
+      &[class~="swiper-pagination-disabled"] {
+        .customPagination {
+          display: none;
+        }
+      }
+
+      .swiperSlide {
+        height: 100%;
+
+        &:last-child {
+          margin-right: 0 !important;
+        }
+
+        .card {
+
+          [class="thumbnail"] {}
+
+          [class="body"] {
+            [class="title"] {
+              white-space: nowrap;
+              text-overflow: ellipsis;
+              overflow: hidden;
+            }
+
+            [class="description"] {
+              display: -webkit-box;
+              /* Create a flexible box for text */
+              -webkit-line-clamp: 7;
+              line-clamp: 7;
+              /* Limit to 3 lines (adjust as needed) */
+              -webkit-box-orient: vertical;
+              /* Set the box's orientation to vertical */
+              overflow: hidden;
+              /* Hide overflowed content */
+              text-overflow: ellipsis;
+            }
+          }
+        }
+
+      }
+
+      .customPagination {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        @include flexRowCenter;
+        gap: 10px;
+        z-index: 10000;
+
+        .pagination {
+          font-family: "Poppins", sans-serif;
+          width: 50px;
+          text-align: center;
+        }
+
+
+
+        button {
+          width: 25px;
+          height: 25px;
+          background-color: transparent;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          color: $applicationGrey;
+          transition: all 0.3s ease-in-out;
+          cursor: pointer;
+
+          &:hover {
+
+            color: #000
+          }
+        }
+      }
+    }
+  }
+}
+
+@mixin mobileView {
+  .home {
+    .news {
+      padding: 0;
+
+      .header {
+        margin: 50px 50px 25px 50px;
+      }
+
+      .swiper {
+        padding-bottom: 50px;
+        margin-bottom: 25px;
+        overflow: clip;
+
+
+      }
+    }
+  }
+}
+
+@include media-breakpoint-only(xs) {
+  @include mobileView;
+
+  .home {
+    .news {
+      .swiper {
+
+        [class="swiper-wrapper"] {
+          // padding: 0 25px
+        }
+
+        .swiperSlide {
+          padding: 25px;
+
+          .card {
+
+            [class="thumbnail"] {}
+
+            [class="body"] {
+              [class="title"] {}
+
+              [class="description"] {}
+            }
+          }
+
+        }
+      }
+    }
+  }
+}
+
+@include media-breakpoint-only(sm) {
+  @include mobileView;
+
+  .home {
+    .news {
+      .swiper {
+
+        [class="swiper-wrapper"] {
+          // padding: 0 25px
+        }
+
+        .swiperSlide {
+
+          .card {
+
+            [class="thumbnail"] {}
+
+            [class="body"] {
+              [class="title"] {}
+
+              [class="description"] {}
+            }
+          }
+
+        }
+      }
+    }
+  }
+}
+
+@include media-breakpoint-only(md) {}
+
+@include media-breakpoint-only(lg) {}
+
+@include media-breakpoint-only(xl) {}
+
+@include media-breakpoint-only(xxl) {}
+
+@include media-breakpoint-only(xxxl) {
+  .home {
+    .news {
+      padding: 50px calc((100% - #{$maxContentWidth}) / 2);
+    }
+  }
+}

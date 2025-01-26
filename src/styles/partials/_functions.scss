@@ -1,0 +1,21 @@
+@use './variables.scss' as *;
+@use "sass:map";
+@use 'sass:list';
+
+
+@function get-next-breakpoint($current-breakpoint) {
+  $breakpoint-names: map.keys($grid-breakpoints);
+
+  $index: list.index($breakpoint-names, $current-breakpoint);
+  $next-index: $index + 1;
+
+  // Check if the next breakpoint exists
+  @if $next-index <=list.length($breakpoint-names) {
+    @return map.get($grid-breakpoints, list.nth($breakpoint-names, $next-index));
+  }
+
+  @else {
+    @warn "No next breakpoint found for #{$current-breakpoint}.";
+    @return null; // You can customize this part based on your needs
+  }
+}

@@ -1,0 +1,24 @@
+// Breakpoint sizes for responsive design
+// Each key represents a breakpoint size with its corresponding pixel value
+$grid-breakpoints: (
+  // Extra small devices (portrait phones)
+  xs: 0,
+  // Small devices (landscape phones)
+  sm: 576px,
+  // Medium devices (tablets)
+  md: 768px,
+  // Large devices (desktops)
+  lg: 992px,
+  // Extra large devices (large desktops)
+  xl: 1200px,
+  // Extra extra large devices (larger desktops)
+  xxl: 1400px,
+  // Extra extra extra large devices (very large desktops)
+  // added 50px to compensate for teh default 50px padding on each side
+  xxxl: 1650px,
+);
+
+$maxContentWidth: 1600px;
+$topNavBG: #f1f1f1;
+$dividerColor: #ccc;
+$applicationGrey: #777;
