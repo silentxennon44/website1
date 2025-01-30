@@ -20,3 +20,29 @@ export const IsDesktop: () => boolean = () => {
 
   // return !isMobile;
 };
+
+export function calculateElementVisibility(element: HTMLElement) {
+  const rect = element.getBoundingClientRect();
+  const windowHeight = window.innerHeight;
+  const windowWidth = window.innerWidth;
+
+  const visibleHeight = Math.max(
+    0,
+    Math.min(rect.bottom, windowHeight) - Math.max(rect.top, 0)
+  );
+  const visibleWidth = Math.max(
+    0,
+    Math.min(rect.right, windowWidth) - Math.max(rect.left, 0)
+  );
+  const visibleArea = visibleHeight * visibleWidth;
+
+  const totalArea = rect.height * rect.width;
+  const visibilityPercentage = (visibleArea / totalArea) * 100;
+
+  return {
+    visibleHeight,
+    visibleWidth,
+    visibleArea,
+    visibilityPercentage,
+  };
+}

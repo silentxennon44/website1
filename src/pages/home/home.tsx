@@ -17,11 +17,46 @@ import {
   FaAngleDoubleRight,
   FaAngleDoubleLeft,
 } from "react-icons/fa";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { calculateElementVisibility } from "@/utils/helpers";
+import classNames from "classnames";
 
 function Home() {
   const [swiperInstance, setSwiperInstance] = useState<SwiperType | null>(null);
   const [activeSwiperIndex, setActiveSwiperIndex] = useState<number>(0);
+
+  const targetRef = useRef<HTMLElement>(null);
+  const [animate, setAnimate] = useState<boolean>(false);
+
+  useEffect(() => {
+    /**
+     * Scroll event handler to toggle fixed state of the navbar
+     */
+    const handleScroll = () => {
+      const imgElement = targetRef.current!.getElementsByTagName("img")[0];
+
+      if (!imgElement) return;
+
+      const { visibleHeight } = calculateElementVisibility(imgElement);
+      const imgHeight = imgElement.clientHeight;
+      const rect = imgElement.getBoundingClientRect();
+
+      // Keep animation active if the element is at the top of the viewport
+      if (rect.top <= 0 || visibleHeight >= imgHeight / 3) {
+        setAnimate(true);
+      } else {
+        setAnimate(false);
+      }
+    };
+
+    handleScroll();
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   const CustomPagination = ({ swiper, current, total }) => {
     return (
@@ -64,6 +99,7 @@ function Home() {
       </div>
     );
   };
+
   return (
     <main className={styles.home}>
       <section className={styles.videoBanner}>
@@ -87,7 +123,7 @@ function Home() {
           your browser.
         </video>
       </section>
-      <section className={styles.news}>
+      <section className={styles.news} ref={targetRef}>
         <h1 className={styles.header}>News & Updates</h1>
         <Swiper
           spaceBetween={20}
@@ -101,6 +137,9 @@ function Home() {
           }}
           modules={[Pagination, A11y, Navigation]}
           className={styles.swiper}
+          shortSwipes={false}
+          longSwipes={true}
+          threshold={65}
           breakpoints={{
             0: {
               slidesPerView: "auto", // Extra small devices
@@ -145,12 +184,19 @@ function Home() {
             return (
               <SwiperSlide key={index} className={styles.swiperSlide}>
                 <Card
+                  ref={(el) => {
+                    if (index === 1 && el) {
+                      targetRef.current = el;
+                    }
+                  }}
                   key={index}
                   thumbnail={item.items[0].thumbnail}
                   title={item.items[0].name}
                   description={item.items[0].description}
                   link="/home"
-                  className={styles.card}
+                  className={classNames(styles.card, {
+                    [styles.animate]: animate,
+                  })}
                 />
               </SwiperSlide>
             );

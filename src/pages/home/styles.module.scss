@@ -1,4 +1,6 @@
 .home {
+  background-color: #fff;
+
   .videoBanner {
     @include flexRowCenter;
     overflow: hidden;
@@ -37,6 +39,14 @@
         }
 
         .card {
+          opacity: 0;
+          transform: translateY(50px);
+          transition: all 0.3s ease-in-out;
+
+          &.animate {
+            opacity: 1;
+            transform: translateY(0);
+          }
 
           [class="thumbnail"] {}
 
@@ -104,7 +114,7 @@
 @mixin mobileView {
   .home {
     .news {
-      padding: 0;
+      padding: 0 0 25px 0;
 
       .header {
         margin: 50px 50px 25px 50px;
@@ -112,7 +122,6 @@
 
       .swiper {
         padding-bottom: 50px;
-        margin-bottom: 25px;
         overflow: clip;
 
 
@@ -133,7 +142,7 @@
         }
 
         .swiperSlide {
-          padding: 25px;
+          padding: 50px 50px 0 50px;
 
           .card {
 

@@ -7,6 +7,7 @@ import Providers from "@/store/provider/provider";
 import { RouterProvider } from "react-router-dom";
 import router from "@/routes/routes";
 import { register } from "swiper/element/bundle";
+import "animate.css/animate.compat.css";
 
 register();
 

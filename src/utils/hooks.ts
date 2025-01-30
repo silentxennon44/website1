@@ -8,7 +8,9 @@ import { useEffect, useState, useRef } from "react";
  * @returns `true` if the element is currently visible within the viewport,
  *   `false` otherwise.
  */
-export function useOnScreen(ref: React.RefObject<Element>): boolean {
+export function useOnScreen(
+  ref: React.RefObject<Element | HTMLElement>
+): boolean {
   const [isOnScreen, setIsOnScreen] = useState(false);
   const observerRef = useRef<IntersectionObserver | null>(null);
 

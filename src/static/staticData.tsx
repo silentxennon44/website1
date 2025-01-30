@@ -78,6 +78,7 @@ export const navItems: SubMenuItem[] = [
   {
     title: "STORES",
     link: "/stores",
+    component: <Home />,
   },
 ];
 
