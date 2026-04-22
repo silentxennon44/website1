@@ -2,7 +2,7 @@ import classNames from "classnames";
 import styles from "./styles.module.scss";
 import { footerItems } from "@/static/staticData";
 import images from "@/assets";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import GoogleInputBox from "@/components/googleInputBox";
 import { useState } from "react";
 import { FaArrowRightToBracket } from "react-icons/fa6";

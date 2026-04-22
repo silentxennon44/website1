@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import styles from "./styles.module.scss";
 import classNames from "classnames";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import { PiCaretDown } from "react-icons/pi";
 
 const Accordion = ({ sections, isDrawerOpen, classname = "" }) => {

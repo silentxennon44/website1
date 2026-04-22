@@ -2,7 +2,7 @@ import classNames from "classnames";
 import styles from "./styles.module.scss";
 import { forwardRef, JSX, Ref } from "react";
 import images from "@/assets";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 
 /**
  * A card component that displays an image, title, and optional description.

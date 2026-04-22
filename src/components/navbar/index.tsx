@@ -7,7 +7,7 @@ import { PiShoppingCartBold } from "react-icons/pi";
 import { useEffect, useState } from "react";
 import { PiCaretDown } from "react-icons/pi";
 import classNames from "classnames";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import Accordion from "@/components/accordion";
 import Drawer from "@/components/drawer";
 import { AiOutlineClose } from "react-icons/ai";
