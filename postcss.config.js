@@ -1,15 +1,23 @@
-module.exports = () => {
-  return {
-    plugins: [
-      require("autoprefixer")(),
-      require("postcss-combine-media-query"),
-      require("postcss-combine-duplicated-selectors"),
-      require("postcss-prettify"),
-    ],
-  };
+import tailwindcss from "tailwindcss";
+import autoprefixer from "autoprefixer";
+import combineMediaQuery from "postcss-combine-media-query";
+import combineDuplicatedSelectors from "postcss-combine-duplicated-selectors";
+import prettify from "postcss-prettify";
+
+export default {
+  plugins: [
+    tailwindcss,
+    autoprefixer,
+
+    combineMediaQuery,
+    combineDuplicatedSelectors,
+    prettify,
+  ],
 };
-// module.exports = {
+
+// export default {
 //   plugins: {
+//     tailwindcss: {},
 //     autoprefixer: {},
 //   },
 // };

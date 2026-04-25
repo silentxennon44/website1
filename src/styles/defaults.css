@@ -1,7 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 a {
   text-decoration: none;
   color: black;
-  font-family: "Poppins", sans-serif;
+   font-family: "Noto Sans", sans-serif;
 }
 
 * {
@@ -60,4 +64,64 @@ body {
   --swiper-pagination-bullet-opacity: 1;
   --swiper-pagination-bullet-horizontal-gap: 4px;
   --swiper-pagination-bullet-vertical-gap: 6px;
+
+  /* 
+    Custom CSS variables for the project
+    make sure partials/_variables.css and variables declared here are the same, otherwise it will cause confusion and bugs
+   */
+  --max-content-width: 1600px;
+  --top-nav-bg: #f1f1f1;
+  --divider-color: #ccc;
+  --application-grey: #777;
+
+  --color-1: #ed3132;
+  --color-2: #0256a5;
+
+  --header-height: 12.5rem;
+}
+
+*:disabled {
+  cursor: not-allowed !important;
+}
+
+button:disabled {
+  opacity: 0.6;
+  background-color: #999;
+  color: #fff;
+  
+}
+
+.defaultButton {
+  background: #0b63ce;          /* deep blue */
+  color: white;
+  border: none;
+
+  padding: 12px 32px;
+  border-radius: 9999px;        /* fully pill-shaped */
+
+  font-size: 16px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  width: 100%;
+  max-width: 320px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow: 0 4px 10px rgba(11, 99, 206, 0.25);
+
+  transition: all 0.2s ease-in-out;
+}
+
+.defaultButton:not(:disabled):hover {
+  background: #0957b8;
+  transform: translateY(-1px);
+}
+
+.defaultButton:active {
+  transform: translateY(0px);
+  box-shadow: 0 2px 6px rgba(11, 99, 206, 0.2);
 }

@@ -1,213 +1,163 @@
-import { tempClothingData } from "@/static/staticData";
+import { useState } from "react";
 import styles from "./styles.module.scss";
-import images from "@/assets";
-import Card from "@/components/card";
-
-import "swiper/swiper-bundle.css";
-
-// import required modules
-import { Pagination, A11y, Navigation } from "swiper/modules";
-
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Swiper as SwiperType } from "swiper/types";
-
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import {
-  FaChevronLeft,
-  FaChevronRight,
-  FaAngleDoubleRight,
-  FaAngleDoubleLeft,
-} from "react-icons/fa";
-import { useEffect, useRef, useState } from "react";
-import { calculateElementVisibility } from "@/utils/helpers";
-import classNames from "classnames";
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Checkbox,
+  FormControlLabel,
+  FormGroup,
+} from "@mui/material";
+import { useNavigate } from "react-router";
 
 function Home() {
-  const [swiperInstance, setSwiperInstance] = useState<SwiperType | null>(null);
-  const [activeSwiperIndex, setActiveSwiperIndex] = useState<number>(0);
-
-  const targetRef = useRef<HTMLElement>(null);
-  const [animate, setAnimate] = useState<boolean>(false);
-
-  useEffect(() => {
-    /**
-     * Scroll event handler to toggle fixed state of the navbar
-     */
-    const handleScroll = () => {
-      const imgElement = targetRef.current!.getElementsByTagName("img")[0];
-
-      if (!imgElement) return;
-
-      const { visibleHeight } = calculateElementVisibility(imgElement);
-      const imgHeight = imgElement.clientHeight;
-      const rect = imgElement.getBoundingClientRect();
-
-      // Keep animation active if the element is at the top of the viewport
-      if (rect.top <= 0 || visibleHeight >= imgHeight / 3) {
-        setAnimate(true);
-      } else {
-        setAnimate(false);
-      }
-    };
-
-    handleScroll();
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
-  const CustomPagination = ({ swiper, current, total }) => {
-    return (
-      <div className={styles.customPagination}>
-        <button
-          type="button"
-          title="Jump to the first slide"
-          className={styles.firstSlide}
-          onClick={() => swiper.slideTo(0)}
-        >
-          <FaAngleDoubleLeft />
-        </button>
-        <button
-          type="button"
-          title="Previous slide"
-          className={styles.prevSlide}
-          onClick={() => swiper.slidePrev()}
-        >
-          <FaChevronLeft />
-        </button>
-        <span className={styles.pagination}>
-          {current + 1} / {total}
-        </span>
-        <button
-          type="button"
-          title="Next slide"
-          className={styles.nextSlide}
-          onClick={() => swiper.slideNext()}
-        >
-          <FaChevronRight />
-        </button>
-        <button
-          type="button"
-          title="Jump to the last slide"
-          onClick={() => swiper.slideTo(total - 1)}
-          className={styles.lastSlide}
-        >
-          <FaAngleDoubleRight />
-        </button>
-      </div>
-    );
-  };
+  const [open, setOpen] = useState(true);
+  const [agreed, setAgreed] = useState(false);
+  const [isDisabled, setIdDisabled] = useState(true);
+  const navigate = useNavigate();
 
   return (
     <main className={styles.home}>
-      <section className={styles.videoBanner}>
-        <video
-          id="background-video"
-          loop
-          autoPlay
-          muted
-          playsInline
-          preload="auto"
-        >
-          <source
-            src={images.videos.homieside_promotional_video_2.src}
-            type="video/mp4"
-          />
-          <source
-            src={images.videos.homieside_promotional_video_2.src}
-            type="video/ogg"
-          />
-          Your browser does not support the video tag. I suggest you upgrade
-          your browser.
-        </video>
+      <section className={styles.notice}>
+        <span>
+          <i>
+            <ErrorOutlineIcon />
+          </i>
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+        </span>
       </section>
-      <section className={styles.news} ref={targetRef}>
-        <h1 className={styles.header}>News & Updates</h1>
-        <Swiper
-          spaceBetween={20}
-          slidesPerView={"auto"}
-          onSwiper={(swiper) => {
-            setActiveSwiperIndex(0);
-            setSwiperInstance(swiper);
-          }}
-          onActiveIndexChange={(swiper) => {
-            setActiveSwiperIndex(swiper.activeIndex);
-          }}
-          modules={[Pagination, A11y, Navigation]}
-          className={styles.swiper}
-          shortSwipes={false}
-          longSwipes={true}
-          threshold={65}
-          breakpoints={{
-            0: {
-              slidesPerView: "auto", // Extra small devices
-              pagination: {
-                enabled: true,
-                el: styles.pagination,
-                type: "fraction",
-              },
-              allowTouchMove: true,
-              slidesOffsetAfter: 0,
-              slidesOffsetBefore: 0,
-            },
-            576: {
-              slidesPerView: 1.5, // Small devices
-              slidesOffsetAfter: 25,
-              slidesOffsetBefore: 25,
-              pagination: {
-                enabled: true,
-                el: styles.pagination,
-                type: "fraction",
-              },
-              allowTouchMove: true,
-            },
-            768: {
-              slidesPerView: 4, // Large devices
-              pagination: {
-                paginationDisabledClass: "swiper-pagination-disabled",
-                enabled: false,
-              },
-              allowTouchMove: false,
-              slidesOffsetAfter: 0,
-              slidesOffsetBefore: 0,
-            },
-          }}
-          freeMode={{
-            enabled: true,
-            sticky: true,
-          }}
-        >
-          {tempClothingData.map((item, index) => {
-            if (index > 3) return null;
-            return (
-              <SwiperSlide key={index} className={styles.swiperSlide}>
-                <Card
-                  ref={(el) => {
-                    if (index === 1 && el) {
-                      targetRef.current = el;
-                    }
-                  }}
-                  key={index}
-                  thumbnail={item.items[0].thumbnail}
-                  title={item.items[0].name}
-                  description={item.items[0].description}
-                  link="/home"
-                  className={classNames(styles.card, {
-                    [styles.animate]: animate,
-                  })}
-                />
-              </SwiperSlide>
-            );
-          })}
-          <CustomPagination
-            swiper={swiperInstance}
-            current={activeSwiperIndex}
-            total={swiperInstance?.slides.length}
-          />
-        </Swiper>
+      <section
+        className={styles.content}
+        onScroll={(e) => {
+          const el = e.currentTarget;
+
+          const isBottom =
+            el.scrollTop + el.clientHeight >= el.scrollHeight - 1;
+
+          if (isBottom) {
+            setIdDisabled(false)
+          }
+        }}
+      >
+        {new Array(10).fill(null).map((_, index) => (
+          <p key={index}>
+            Dolor elit cillum cupidatat dolor aute ut incididunt cillum. Amet
+            sit sint occaecat voluptate cillum laboris. Sunt cillum esse mollit
+            ea irure veniam reprehenderit non qui ea. Ad Lorem commodo enim
+            incididunt excepteur et pariatur Lorem. Est consectetur officia qui
+            incididunt esse dolor magna do. Irure aute incididunt adipisicing
+            sit et pariatur eu consectetur magna magna in tempor cillum
+            proident. Ea irure incididunt amet non Lorem Lorem deserunt ut eu
+            magna cillum proident quis. Irure ullamco voluptate consectetur
+            aliqua veniam. Aliqua non duis commodo ad est id sint nisi id eu
+            nisi ipsum. Aliqua excepteur voluptate cillum adipisicing commodo
+            non anim sunt velit officia sint ex ex magna. Do sint qui minim
+            exercitation magna in est in sint eiusmod. Esse dolore duis mollit
+            Lorem Lorem. Velit sit esse excepteur voluptate quis mollit laborum
+            minim aliquip. Ipsum deserunt amet mollit minim cupidatat incididunt
+            nulla Lorem officia in exercitation laboris. Minim consequat fugiat
+            laboris excepteur do ullamco cupidatat reprehenderit esse do culpa
+            aliquip occaecat et. Pariatur laboris non nostrud consectetur
+            reprehenderit ullamco non Lorem nisi sit aliquip id. Minim
+            incididunt magna proident pariatur cupidatat sint sunt occaecat et
+            veniam nisi voluptate exercitation officia. Ea magna sint culpa
+            esse. Qui et veniam laborum voluptate laboris commodo Lorem
+            incididunt Lorem velit adipisicing amet. Proident ullamco cillum
+            enim laboris ut. Magna veniam tempor commodo nostrud magna proident
+            occaecat in eu occaecat.
+          </p>
+        ))}
       </section>
+      <section className={styles.pageActions}>
+        <FormGroup>
+          <FormControlLabel
+            required
+            control={
+              <Checkbox
+                checked={agreed}
+                disabled={isDisabled}
+                onChange={(e) => setAgreed(e.target.checked)}
+              />
+            }
+            label="I Agree to the Terms and Conditions"
+            sx={{
+              "& .MuiFormControlLabel-asterisk": {
+                color: "red",
+              },
+            }}
+          />
+        </FormGroup>
+        <button
+          disabled={isDisabled || !agreed}
+          className="defaultButton"
+          onClick={() => navigate("/register")}
+        >
+          Proceed
+        </button>
+      </section>
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
+        aria-labelledby="Reminder-title"
+        aria-describedby="Reminder-description"
+        className={styles.dialog}
+      >
+        <DialogTitle id="Reminder-title">{"Reminder"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="Reminder-description" component={"section"}>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Accusamus, in nostrum quas accusantium laborum minima debitis
+              autem ducimus aut molestiae doloremque, dolore illum numquam
+              laboriosam vero quae nobis quis. Expedita?
+            </p>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Accusamus, in nostrum quas accusantium laborum minima debitis
+              autem ducimus aut molestiae doloremque, dolore illum numquam
+              laboriosam vero quae nobis quis. Expedita?
+            </p>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Accusamus, in nostrum quas accusantium laborum minima debitis
+              autem ducimus aut molestiae doloremque, dolore illum numquam
+              laboriosam vero quae nobis quis. Expedita?
+            </p>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Accusamus, in nostrum quas accusantium laborum minima debitis
+              autem ducimus aut molestiae doloremque, dolore illum numquam
+              laboriosam vero quae nobis quis. Expedita?
+            </p>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Accusamus, in nostrum quas accusantium laborum minima debitis
+              autem ducimus aut molestiae doloremque, dolore illum numquam
+              laboriosam vero quae nobis quis. Expedita?
+            </p>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Accusamus, in nostrum quas accusantium laborum minima debitis
+              autem ducimus aut molestiae doloremque, dolore illum numquam
+              laboriosam vero quae nobis quis. Expedita?
+            </p>
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions className={styles.dialogActions}>
+          <button onClick={() => setOpen(false)} className="defaultButton">
+            Continue
+          </button>
+          <button
+            onClick={() => navigate("/welcome")}
+            className="defaultButton !bg-white !text-[#0256a5] !shadow-none"
+          >
+            Exit
+          </button>
+        </DialogActions>
+      </Dialog>
     </main>
   );
 }

@@ -1,10 +1,14 @@
 "use client";
-import { Navigation_Reducer } from "@/store/reducers/navigations";
+import { RegistrationSteps_Reducer } from "@/store/reducers/RegistrationSteps";
+import { RegistrationInformation_Reducer } from "@/store/reducers/RegistrationInformation";
+import { Loader_Reducer } from "@/store/reducers/Loader";
 import { combineReducers } from "redux";
 import { configureStore } from "@reduxjs/toolkit";
 
 const allReducers = combineReducers({
-  Navigation: Navigation_Reducer,
+  RegistrationSteps: RegistrationSteps_Reducer,
+  RegistrationInformation: RegistrationInformation_Reducer,
+  Loader: Loader_Reducer,
 });
 
 const store = configureStore({

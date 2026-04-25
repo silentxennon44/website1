@@ -5,7 +5,6 @@ import path from "path";
 import crypto from "crypto"; // Import the crypto module
 import { ViteImageOptimizer } from "vite-plugin-image-optimizer";
 import fs from "fs";
-import autoprefixer from "autoprefixer";
 import generateCssVariablesPlugin from "./generateCSsVars";
 // import obfuscatorPlugin from "vite-plugin-javascript-obfuscator";
 
@@ -118,9 +117,6 @@ export default defineConfig(({ command, mode }) => {
             ? prodCss
             : `${fileName.replace(".module.scss", "")}_${className}_${hash}`;
         },
-      },
-      postcss: {
-        plugins: [autoprefixer({})],
       },
     },
     build: {

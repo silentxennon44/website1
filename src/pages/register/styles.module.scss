@@ -1,0 +1,20 @@
+.register{
+  .stepper{
+    padding: 1.25rem 0;
+  }
+
+  .pageContent{
+    padding: 2rem;
+  }
+
+  .pageAction{
+    gap: 1.25rem;
+    padding: 1rem;
+    @include flexRowEvenly;
+
+    @include media-breakpoint-only(xs) {
+      flex-direction: column;
+      gap: 1rem;
+    }
+  }
+}

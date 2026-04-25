@@ -9,7 +9,7 @@
   border-radius: 10px;
   outline: 1px solid #ccc;
   width: 100%;
-  font-family: "Poppins", sans-serif;
+   font-family: "Noto Sans", sans-serif;
   transition: all .10s ease-in-out;
 
   &:focus-within,
@@ -73,7 +73,7 @@
   }
 
   [class="inputButton"] {
-    font-family: "Poppins", sans-serif;
+     font-family: "Noto Sans", sans-serif;
     @include flexRowCenter;
     font-size: 20px;
     background: none;

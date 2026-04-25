@@ -1,12 +1,14 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import NotFound from "@/pages/notFound/notFound";
-import Navbar from "@/components/navbar";
-import { footerItems, navItems } from "@/static/staticData";
-import Footer from "@/components/footer";
 import { Helmet } from "react-helmet";
 import { Toaster } from "react-hot-toast";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorPage from "@/pages/errorPage";
+import Home from "@/pages/home/home";
+import Header from "@/components/header";
+import Welcome from "@/pages/welcome";
+import Register from "@/pages/register";
+import Loader from "@/components/loader";
 
 const logError = (
   error: Error,
@@ -16,7 +18,7 @@ const logError = (
   // Do something with the error, e.g. log to an external API
 };
 
-export const pageTemplate = (Page: React.ReactNode, title = "") => {
+export const pageTemplate = (Page: React.ReactNode, title = "", desc="") => {
   return (
     <>
       <ErrorBoundary
@@ -29,9 +31,11 @@ export const pageTemplate = (Page: React.ReactNode, title = "") => {
         <Helmet>
           <title>{`${title} - ${process.env.WEBSITE_NAME}`}</title>
         </Helmet>
-        <Navbar />
+        <Header title={title} desc={desc}/>
+        {/* <Navbar /> */}
+        <Loader/>
         {Page}
-        <Footer />
+        {/* <Footer /> */}
         <Toaster
           position="top-center"
           reverseOrder={false}
@@ -47,7 +51,7 @@ export const pageTemplate = (Page: React.ReactNode, title = "") => {
               // background: "#363636",
               // color: "#fff",
             },
-            icon: {},
+            // icon: {},
 
             // Default options for specific types
             success: {
@@ -106,39 +110,25 @@ export const generateRoutes = (items) => {
 };
 
 const router = createBrowserRouter([
-  ...generateRoutes(navItems),
-  ...generateRoutes(footerItems.support),
-  { path: "/", element: <Navigate to="/home" replace /> }, // Redirect to home
+  // ...generateRoutes(navItems),
+  // ...generateRoutes(footerItems.support),
+  { path: "/", element: <Navigate to="/welcome" replace /> }, // Redirect to home
   {
     path: "*",
     element: pageTemplate(<NotFound />),
-    // errorElement: <div>ERROR</div>,
-    // ErrorBoundary: <ErrorBoundary />,
   }, // Catch-all route
+  {
+    path: "/home",
+    element: pageTemplate(<Home />,"Open an Account","Terms & Conditions"),
+  }, 
+  {
+    path: "/welcome",
+    element: pageTemplate(<Welcome /> ,"Open an Account"),
+  }, 
+  {
+    path: "/register",
+    element: pageTemplate(<Register />,"Open an Account"),
+  }, 
 ]);
-
-// const router = createBrowserRouter([
-//   {
-//     path: "",
-//     element: <Navigate to="/home" replace />, // Redirect root path to /home
-//   },
-//   {
-//     path: "/",
-//     element: <Navigate to="/home" replace />, // Explicitly redirect / to /home
-//   },
-//   {
-//     path: "/home",
-//     element: pageTemplate(<Home />), // Home route
-//     index: true, // Marking /home as the index page
-//   },
-//   {
-//     path: "/contacts",
-//     element: pageTemplate(<Contacts />), // Contacts route
-//   },
-//   {
-//     path: "*",
-//     element: pageTemplate(<NotFound />), // Catch-all for undefined routes
-//   },
-// ]);
 
 export default router;
