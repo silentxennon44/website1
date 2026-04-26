@@ -2,7 +2,6 @@ import classNames from "classnames"
 import styles from "./styles.module.scss"
 import { useLocation } from "react-router-dom";
 import { useAppSelector } from "@/store/hooks/hooks";
-import { useEffect } from "react";
 import { RegistrationStepsObj } from "@/static/staticData";
 
 function Header({title, desc = ""}) {
@@ -10,9 +9,6 @@ function Header({title, desc = ""}) {
 
   const {currentStep} = useAppSelector(state => state.RegistrationSteps);
 
-  useEffect(() => {
-  console.log("asdasdasdasdasd", location )
-  }, [currentStep])
   return (
     <header className={classNames(styles.header, )}>
       <h1 >{title}</h1>

@@ -1,9 +1,13 @@
-// import { FaCheckCircle, FaTimesCircle, FaInfoCircle } from "react-icons/fa";
 import toast, { Renderable, Toast, ValueOrFunction } from "react-hot-toast";
 import classNames from "classnames";
 import styles from "./styles.module.scss";
 import { JSX, useState } from "react";
 import { RiInformation2Fill } from "react-icons/ri";
+
+const NotificationType = ["default" , "success" , "error" ]as const;
+
+
+export type NotificationType = typeof NotificationType[number];
 
 // Custom Toast Component
 /**
@@ -18,7 +22,7 @@ const CustomToast = ({
   classname,
 }: {
   message: ValueOrFunction<Renderable, Toast>;
-  type: "default" | "success" | "error";
+  type: NotificationType;
   toastId: string;
   classname: string;
 }): JSX.Element => {
@@ -67,7 +71,7 @@ const CustomToast = ({
  */
 const notify = (
   message: ValueOrFunction<Renderable, Toast>,
-  type: "default" | "success" | "error" = "default",
+  type: NotificationType = "default",
   classname: string = ""
 ): string => {
   const toastTypes = {
@@ -87,4 +91,4 @@ const notify = (
   ));
 };
 
-export { notify };
+export { notify, NotificationType };

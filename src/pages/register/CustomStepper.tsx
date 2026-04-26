@@ -44,7 +44,7 @@ const StepIconRoot = styled('div')<{
 }));
 
 
-const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
+const Connector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
     top: 22,
   },
@@ -74,13 +74,16 @@ const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
 }));
 
 function CustomStepper() {
-  
-    const { currentStep } = useAppSelector(state => state.RegistrationSteps);
+  const { currentStep } = useAppSelector(state => state.RegistrationSteps);
   return (
-    <Stepper alternativeLabel activeStep={RegistrationSteps.indexOf(currentStep)} connector={<ColorlibConnector />}>
+    <Stepper className={styles.customStepper} alternativeLabel activeStep={RegistrationSteps.indexOf(currentStep)} connector={<Connector />}>
       {RegistrationSteps.map((label) => (
         <Step key={label}>
-          <StepLabel StepIconComponent={StepIcon}>{label}</StepLabel>
+          <StepLabel sx={{
+            "& .MuiStepLabel-alternativeLabel": {
+              lineHeight: 1,
+            },
+          }} StepIconComponent={StepIcon}>{label}</StepLabel>
         </Step>
       ))}
     </Stepper>

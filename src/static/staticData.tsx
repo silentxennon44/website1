@@ -36,6 +36,15 @@ export const RegistrationStepsObj = [
 ] as const;
 
 export type RegistrationStep = typeof RegistrationSteps[number];
+
+export const RegistrationFields = [
+  "Mobile Number",
+  "Email",
+  "Confirm Email",
+] as const
+
+export type RegistrationFields = typeof RegistrationFields[number];
+
 // export type SubMenuItem = {
 //   title: string; // Title of the menu item
 //   link: string; // Link to the page.
