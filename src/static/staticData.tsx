@@ -71,7 +71,7 @@ export const RegistrationLabels = {
     section: "Home Address",
     step: "Personal Info",
     fields: {
-      street: "Street",
+      street: "House no/Bldg., Street, Village",
       barangay: "Barangay",
       city: "City",
       province: "Province",
@@ -84,7 +84,7 @@ export const RegistrationLabels = {
     section: "Mailing Address",
     step: "Personal Info",
     fields: {
-      street: "Street",
+      street: "House no/Bldg., Street, Village",
       barangay: "Barangay",
       city: "City",
       province: "Province",
@@ -106,8 +106,10 @@ export const RegistrationLabels = {
     section: "Political Information",
     step: "Personal Info",
     fields: {
-      isPolitician: "Politician/Public Servant",
-      isConnectedToPolitician: "Related To Politician",
+      isPolitician: "Are you an elected/appointed public servant or government official?",
+      isConnectedToPolitician: "Are you related to an elected/appointed public servant or government official?",
+      // isPolitician: "Politician/Public Servant",
+      // isConnectedToPolitician: "Related To Politician",
     },
   },
 
