@@ -8,7 +8,7 @@ import {
 import { RegistrationFields, RegistrationSteps } from "@/static/staticData";
 import classNames from "classnames";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import GoogleInputBox from "../../components/googleInputBox";
 import { setRegistrationField } from "@/store/actions/RegistrationInformation";
 import { MuiTelInput } from "mui-tel-input";
@@ -17,29 +17,42 @@ import { notify } from "@/components/customToast";
 
 import { AnimatePresence, motion } from "framer-motion";
 import { Modal, Box, Typography } from "@mui/material";
-import { MuiOtpInput } from 'mui-one-time-password-input'
+import { MuiOtpInput } from "mui-one-time-password-input";
+import ContactInfo from "./ContactInfo";
+import Countdown from "react-countdown";
+import Summary from "./Summary";
 
 function Register() {
   const dispatch = useAppDispatch();
+  const [error, setError] = useState<RegistrationFields[]>([]);
 
   const { currentStep, completedSteps } = useAppSelector(
     (state) => state.RegistrationSteps,
   );
 
-  const { mobileNumber, email } = useAppSelector(
+  const registrationInformation = useAppSelector(
     (state) => state.RegistrationInformation,
   );
 
-  const [email2, setEmail2] = useState("");
-  const [error, setError] = useState<RegistrationFields[]>([]);
   const [direction, setDirection] = useState(1);
   const [isAnimating, setIsAnimating] = useState(false);
 
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [isContactConfirmed, setIsContactConfirmed] = useState(false);
-  const [mobileVerificationOk, setMobileVerificationOk] = useState(false);
   const [mobileOtp, setMobileOtp] = useState("");
   const [emailOtp, setEmailOtp] = useState("");
+  const [emailOtpOk, setEmailOtpOk] = useState(false);
+  const [mobileOtpOk, setMobileOtpOk] = useState(false);
+  const [countdownDate, setCountdownDate] = useState(Date.now() + 10000);
+
+  const resetTimer = () => {
+    setCountdownDate(Date.now() + 10000);
+    setShowResend(false);
+  };
+
+  const [showResend, setShowResend] = useState(false);
+
+  const [alertModal, setAlertModal] = useState(false);
 
   // ---------------------------
   // VALIDATION
@@ -49,24 +62,24 @@ function Register() {
 
     switch (step) {
       case "Contact Info":
-        if (
-          !mobileNumber ||
-          mobileNumber.replace("+63 ", "").replaceAll(" ", "").length !== 10
-        ) {
-          errors.push("Mobile Number");
-        }
+        // if (
+        //   !registrationInformation.contact.mobileNumber ||
+        //   registrationInformation.contact.mobileNumber.replace("+63 ", "").replaceAll(" ", "").length !== 10
+        // ) {
+        //   errors.push("Mobile Number");
+        // }
 
-        if (!email) {
-          errors.push("Email");
-        } else if (!validEmailRegex.test(email)) {
-          errors.push("Email");
-        }
+        // if (!email) {
+        //   errors.push("Email");
+        // } else if (!validEmailRegex.test(email)) {
+        //   errors.push("Email");
+        // }
 
-        if (!email2) {
-          errors.push("Confirm Email");
-        } else if (email2 !== email) {
-          errors.push("Confirm Email");
-        }
+        // if (!email2) {
+        //   errors.push("Confirm Email");
+        // } else if (email2 !== email) {
+        //   errors.push("Confirm Email");
+        // }
 
         break;
     }
@@ -84,7 +97,7 @@ function Register() {
     if (!nextStep) return;
 
     if (currentStep === "Contact Info" && !isContactConfirmed)
-      return setShowConfirmationModal(true);
+      return setAlertModal(true);
 
     setError([]);
 
@@ -151,54 +164,8 @@ function Register() {
     switch (currentStep) {
       case "Contact Info":
         return (
-          <section className={classNames(styles.contactInfo, styles.slide)}>
-            <h1>Make sure the personal information you provided is correct</h1>
-
-            {/* MOBILE */}
-            <div className={classNames(styles.mobileNumber, styles.field)}>
-              <span>Mobile Number</span>
-              <MuiTelInput
-                // disableFormatting
-                forceCallingCode
-                onlyCountries={["PH"]}
-                defaultCountry="PH"
-                value={mobileNumber}
-                className={classNames(styles.mobileNumberInput, {
-                  [styles.errorInput]: error.includes("Mobile Number"),
-                })}
-                onChange={(value) =>
-                  dispatch(setRegistrationField("mobileNumber", value))
-                }
-              />
-            </div>
-
-            {/* EMAIL */}
-            <div className={classNames(styles.email1, styles.field)}>
-              <span>Email</span>
-              <GoogleInputBox
-                type="email"
-                value={email}
-                classname={classNames(styles.emailInput1, {
-                  [styles.errorInput]: error.includes("Email"),
-                })}
-                onChange={(value) =>
-                  dispatch(setRegistrationField("email", value))
-                }
-              />
-            </div>
-
-            {/* CONFIRM EMAIL */}
-            <div className={classNames(styles.email2, styles.field)}>
-              <span>Confirm Email</span>
-              <GoogleInputBox
-                type="email"
-                value={email2}
-                classname={classNames(styles.emailInput2, {
-                  [styles.errorInput]: error.includes("Confirm Email"),
-                })}
-                onChange={(value) => setEmail2(value)}
-              />
-            </div>
+          <>
+            <ContactInfo error={error} />
             <Modal
               open={showConfirmationModal}
               aria-labelledby="confirmation-modal-title"
@@ -215,6 +182,7 @@ function Register() {
                   outline: "2px solid #000",
                   boxShadow: 24,
                   p: 4,
+                  borderRadius: 5,
                 }}
               >
                 <Typography
@@ -222,20 +190,115 @@ function Register() {
                   variant="h6"
                   component="h2"
                 >
-                  {!mobileVerificationOk ? "Mobile Number Verified" : "Email Verification"}
+                  {!mobileOtpOk
+                    ? "Mobile Number Verified"
+                    : "Email Verification"}
                 </Typography>
                 <Typography id="confirmation-modal-description" sx={{ mt: 2 }}>
-                  {!mobileVerificationOk ? `Please enter the 6 digit OTP sent to the number ending in ${mobileNumber.slice(-3)}` : "Email Verification"}
+                  {!mobileOtpOk
+                    ? `Please enter the 6 digit OTP sent to the number ending in ${registrationInformation.contact.mobileNumber.slice(-3)}`
+                    : `Please enter the 6-digit Verification Code we sent to your email address, ${registrationInformation.contact.email.replace(
+                        /^(.+)(.{3}@.+)$/,
+                        (_, first, last) => "*".repeat(first.length) + last,
+                      )}`}
                   <MuiOtpInput
-                    TextFieldsProps={{ placeholder: '-' }}
+                    TextFieldsProps={{ placeholder: "-" }}
                     value={mobileOtp}
                     length={6}
                     onChange={(value) => setMobileOtp(value)}
                   />
+                  {showResend ? (
+                    <button
+                      className="text-sm text-blue-500"
+                      onClick={() => {
+                        resetTimer();
+                      }}
+                    >
+                      Resend OTP
+                    </button>
+                  ) : (
+                    <Countdown
+                      onComplete={() => setShowResend(true)}
+                      date={countdownDate}
+                      intervalDelay={0}
+                      precision={3}
+                      renderer={({ minutes, seconds }) => (
+                        <div>
+                          {String(minutes).padStart(2, "0")}:
+                          {String(seconds).padStart(2, "0")}
+                        </div>
+                      )}
+                    />
+                  )}
+                  <button
+                    className="defaultButton mt-7"
+                    disabled={mobileOtp.length !== 6}
+                    onClick={() => {
+                      if (!mobileOtpOk) {
+                        setMobileOtpOk(true);
+                        setMobileOtp("");
+                        resetTimer();
+                      } else {
+                        setEmailOtpOk(true);
+                        setShowConfirmationModal(false);
+                        setIsContactConfirmed(true);
+                      }
+                    }}
+                  >
+                    Continue
+                  </button>
                 </Typography>
               </Box>
             </Modal>
-          </section>
+            <Modal
+              open={alertModal}
+              aria-labelledby="alert-modal-title"
+              aria-describedby="alert-modal-description"
+            >
+              <Box
+                sx={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                  width: 400,
+                  bgcolor: "background.paper",
+                  outline: "2px solid #000",
+                  boxShadow: 24,
+                  p: 4,
+                  borderRadius: 5,
+                }}
+              >
+                <Typography
+                  id="alert-modal-title"
+                  variant="h6"
+                  component="h2"
+                  className="text-center text-[var(--color-2)] !font-bold"
+                >
+                  Alert
+                </Typography>
+                <Typography
+                  id="alert-modal-description"
+                  sx={{ mt: 2 }}
+                  className="text-center"
+                >
+                  For your added security, we need to VERIFY your mobile number
+                  and email address. If you continue, you will receive a
+                  Verification CODE in your mobile number and in your email
+                  address.
+                  <button
+                    className="defaultButton mt-7"
+                    onClick={() => {
+                      setShowConfirmationModal(true);
+                      setAlertModal(false);
+                    }}
+                  >
+                    Continue
+                  </button>
+                </Typography>
+              </Box>
+            </Modal>
+          </>
         );
 
       case "ID":
@@ -272,10 +335,7 @@ function Register() {
 
       case "Summary":
         return (
-          <section className={classNames(styles.summary, styles.slide)}>
-            <h1>Summary</h1>
-            <p>Please review the information you provided before submitting.</p>
-          </section>
+          <Summary />
         );
 
       default:
@@ -304,6 +364,7 @@ function Register() {
             transition={{ duration: 0.25 }}
             onAnimationStart={() => setIsAnimating(true)}
             onAnimationComplete={() => setIsAnimating(false)}
+            className="flex h-[100%]"
           >
             {renderStep()}
           </motion.div>

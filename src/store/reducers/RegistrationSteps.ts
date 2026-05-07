@@ -11,8 +11,8 @@ export interface RegistrationStepsState {
 }
 
 export const initialRegistrationStepsState: RegistrationStepsState = {
-  currentStep: "Contact Info",
-  completedSteps: [],
+  currentStep: "Summary",
+  completedSteps: ["Contact Info", "Personal Info", "ID", "Financial Info", "Photo"],
 };
 
 export const RegistrationSteps_Reducer = (

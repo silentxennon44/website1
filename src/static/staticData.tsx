@@ -45,6 +45,82 @@ export const RegistrationFields = [
 
 export type RegistrationFields = typeof RegistrationFields[number];
 
+export const RegistrationLabels = {
+  contact: {
+    section: "Contact Information",
+    step: "Contact Info",
+    fields: {
+      mobileNumber: "Mobile Number",
+      email: "Email Address",
+    },
+  },
+
+  personal: {
+    section: "Personal Information",
+    step: "Personal Info",
+    fields: {
+      firstName: "First Name",
+      lastName: "Last Name",
+      address: "Address",
+      birthday: "Birthday",
+      birthPlace: "Birth Place",
+    },
+  },
+
+  address: {
+    section: "Home Address",
+    step: "Personal Info",
+    fields: {
+      street: "Street",
+      barangay: "Barangay",
+      city: "City",
+      province: "Province",
+      country: "Country",
+      zipCode: "ZIP Code",
+    },
+  },
+
+  MailingAddress: {
+    section: "Mailing Address",
+    step: "Personal Info",
+    fields: {
+      street: "Street",
+      barangay: "Barangay",
+      city: "City",
+      province: "Province",
+      country: "Country",
+      zipCode: "ZIP Code",
+    },
+  },
+
+  citizenship: {
+    section: "Citizenship Information",
+    step: "Personal Info",
+    fields: {
+      citizenship: "Citizenship",
+      isFilipino: "Filipino Citizen",
+    },
+  },
+
+  politics: {
+    section: "Political Information",
+    step: "Personal Info",
+    fields: {
+      isPolitician: "Politician/Public Servant",
+      isConnectedToPolitician: "Related To Politician",
+    },
+  },
+
+  work: {
+    section: "Work Information",
+    step: "Financial Info",
+    fields: {
+      source: "Source of Income",
+      nature: "Nature of Work",
+    },
+  },
+} as const;
+
 // export type SubMenuItem = {
 //   title: string; // Title of the menu item
 //   link: string; // Link to the page.

@@ -28,6 +28,7 @@
     }
 
     .field {
+      min-width: 500px;
       @include flexRowCenter;
       margin-bottom: 1rem;
 
@@ -49,15 +50,21 @@
       max-width: $maxContentWidth;
       margin: 0 auto;
       width: 100%;
+      height: 100%;
     }
 
     .contactInfo {
+      padding-top: 1.5625rem;
+      padding-inline: 3.125rem;
+      @include flexColumnCenter;
       h1 {
         font-size: 1.5rem;
         margin-bottom: 2rem;
+        text-align: center;
       }
 
       .mobileNumber {
+        margin-top: auto;
         .mobileNumberInput {
           width: 100%;
         }
@@ -70,6 +77,7 @@
       }
 
       .email2 {
+        margin-bottom: auto;
         .emailInput2 {
           width: 100%;
         }

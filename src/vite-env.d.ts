@@ -4,13 +4,3 @@ declare namespace NodeJS {
     WEBSITE_NAME: string; // Replace `string` with a specific type if needed (e.g., "MyWebsite" | "AnotherWebsite")
   }
 }
-
-interface RegistrationInformationState {
-  mobileNumber: string;
-  email: string;
-
-  // future fields
-  firstName?: string;
-  lastName?: string;
-  address?: string;
-}
